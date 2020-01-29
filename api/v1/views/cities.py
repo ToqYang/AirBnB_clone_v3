@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+""" Class city that contain the cities """
 from flask import jsonify, abort, request
 from api.v1.views import app_views
 from models import storage

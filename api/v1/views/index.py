@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-
+""" Index file that contain the json
+    status code """
 from api.v1.views import app_views
 from flask import jsonify
 from models import storage
