@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+""" Description of each state and the responses """
 from flask import jsonify, abort, request
 from api.v1.views import app_views
 from models import storage
@@ -50,7 +50,6 @@ def post_state():
     if 'name' not in json:
         return "Missing name", 404
     new_state = State(**json)
-    print(new_state)
     storage.new(new_state)
     storage.save()
 
