@@ -47,14 +47,14 @@ def post_state():
     json = request.get_json()
     if not json:
         return "Not a JSON", 404
-    if not 'name' in json:
+    if 'name' not in json:
         return "Missing name", 404
     new_state = State(**json)
     print(new_state)
     storage.new(new_state)
     storage.save()
 
-    return jsonify(new_state.to_dict()) , 201
+    return jsonify(new_state.to_dict()), 201
 
 
 @app_views.route("/states/<state_id>", methods=['PUT'])
@@ -71,5 +71,4 @@ def update_state(state_id):
         setattr(state, k, v)
     storage.save()
 
-    return jsonify(state.to_dict()) , 200
-
+    return jsonify(state.to_dict()), 200
