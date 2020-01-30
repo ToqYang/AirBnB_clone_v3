@@ -69,7 +69,7 @@ def update_users(user_id):
         abort(404)
     new_dict = users.to_dict()
     for k, v in json.items():
-        if k == 'id' or k == 'created_at' or k == 'updated_at':
+        if k == 'id' or k == 'email' or k == 'created_at' or k == 'updated_at':
             pass
         else:
             setattr(users, k, v)
