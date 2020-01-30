@@ -62,7 +62,9 @@ def post_review(place_id):
     if user is None:
         abort(404)
 
-    new_review = Review(**json)
+    new_review = Review(user_id=json['user_id'],
+                        text=json['text'],
+                        place_id=place_id)
     storage.new(new_review)
     storage.save()
 
@@ -83,7 +85,7 @@ def update_review(review_id):
         if k in ['id', 'created_at', 'updated_at', 'user_id', 'place_id']:
             pass
         else:
-            setattr(place, k, v)
+            setattr(review, k, v)
     storage.save()
 
     return jsonify(review.to_dict()), 200
