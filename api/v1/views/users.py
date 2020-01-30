@@ -28,7 +28,7 @@ def list_users_id(user_id):
 @app_views.route("/users/<user_id>", methods=['DELETE'])
 def delete_users(user_id):
     """ Return a JSON list of users """
-    users = storage.get("User", users_id)
+    users = storage.get("User", user_id)
     if users is None:
         abort(404)
     storage.delete(users)
