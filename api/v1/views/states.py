@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """
- Description of each state and the responses
+Description of each state and the responses
 """
 
-from flask import jsonify, abort, request
+from flask import jsonify, abort, request, make_response
 from api.v1.views import app_views
 from models import storage
 from models.state import State
@@ -48,10 +48,11 @@ def delete_state(state_id):
 def post_state():
     """Return a JSON list of states"""
     json = request.get_json()
+    print("JSON TYPE", type(json))
     if not json:
-        return "Not a JSON", 404
+        return make_response(jsonify({"Not a JSON"}), 404)
     if 'name' not in json:
-        return "Missing name", 404
+        return make_response(jsonify({"Misssing name"}), 404)
     new_state = State(**json)
     storage.new(new_state)
     storage.save()
@@ -64,13 +65,16 @@ def update_state(state_id):
     """Return a JSON list of states"""
     json = request.get_json()
     if not json:
-        return "Not a JSON", 404
+        return make_response(jsonify({"Not a JSON"}), 404)
     state = storage.get("State", state_id)
     if state is None:
         abort(404)
     new_dict = state.to_dict()
     for k, v in json.items():
-        setattr(state, k, v)
+        if k == 'id' or k == 'created_at' or k == 'update_ati':
+            pass
+        else:
+            setattr(state, k, v)
     storage.save()
 
     return jsonify(state.to_dict()), 200
