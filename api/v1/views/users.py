@@ -6,7 +6,7 @@ from models import storage
 from models.user import User
 
 
-@app_views.route("/users", strict_slashes=False)
+@app_views.route("/users", methods=['GET'], strict_slashes=False)
 def list_users():
     """Return a JSON list of users """
     users = storage.all("User")
@@ -16,7 +16,7 @@ def list_users():
     return jsonify(list_users)
 
 
-@app_views.route("/users/<user_id>")
+@app_views.route("/users/<user_id>", methods=['GET'])
 def list_users_id(user_id):
     """Return a JSON list of user """
     users = storage.get("User", user_id)
@@ -37,7 +37,7 @@ def delete_users(user_id):
     return jsonify({}), 200
 
 
-@app_views.route("/users", methods=['POST'])
+@app_views.route("/users", methods=['POST'], strict_slashes=False)
 def post_users():
     """ Return a JSON list of users """
     json = request.get_json()
