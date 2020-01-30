@@ -1,7 +1,8 @@
 #!/usr/bin/python3
-'''
+"""
 flask app module
-'''
+"""
+
 
 import os
 from models import storage
@@ -15,9 +16,9 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def close_session(exception=None):
-    '''
-    close session method
-    '''
+    """
+    close session
+    """
     storage.close()
 
 
