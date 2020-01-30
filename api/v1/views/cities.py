@@ -12,7 +12,7 @@ from models.city import City
                  strict_slashes=False)
 def cities_for_id(state_id):
     """Return a JSON list of states"""
-    state = storage.ger('State', state_id)
+    state = storage.get('State', state_id)
     if state is None:
         abort(404)
     cities = storage.all("City")
