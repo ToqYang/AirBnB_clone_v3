@@ -26,7 +26,6 @@ def places_for_city_id(city_id):
 def list_places(place_id):
     """Return a JSON list of places"""
     place = storage.get('Place', place_id)
-    print("ESTO ES PLACE", place)
     if place is None:
         abort(404)
     return jsonify(place.to_dict())
@@ -52,13 +51,17 @@ def post_places(city_id):
     json = request.get_json()
     if not json:
         abort(400, 'Not a JSON')
-    if 'name' not in json:
-        abort(400, 'Missing name')
     if 'user_id' not in json:
         abort(400, 'Missing user_id')
+    if 'name' not in json:
+        abort(400, 'Missing name')
+    city = storage.get('City', city_id])
+    if city is None:
+        abort(404)
     user = storage.get('User', json['user_id'])
     if user is None:
         abort(404)
+
     new_place = Place(name=json['name'],
                       user_id=json['user_id'],
                       city_id=state_id)
