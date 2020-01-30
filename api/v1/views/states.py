@@ -22,14 +22,10 @@ def list_states():
 @app_views.route("/states/<state_id>")
 def states_for_id(state_id):
     """Return a JSON list of states"""
-    states = storage.all("State")
-    list_state = []
-    for key, val in states.items():
-        if val.to_dict()['id'] == state_id:
-            list_state.append(val.to_dict())
-    if len(list_state) == 0:
+    state = storage.get("State", state_id)
+    if state is None:
         abort(404)
-    return jsonify(list_state)
+    return jsonify(state.to_dict())
 
 
 @app_views.route("/states/<state_id>", methods=['DELETE'])
@@ -38,7 +34,7 @@ def delete_state(state_id):
     state = storage.get("State", state_id)
     if state is None:
         abort(404)
-    storage.delete(state)
+    state.delete()
     storage.save()
 
     return jsonify({})
@@ -48,11 +44,10 @@ def delete_state(state_id):
 def post_state():
     """Return a JSON list of states"""
     json = request.get_json()
-    print("JSON TYPE", type(json))
     if not json:
-        return make_response(jsonify({"Not a JSON"}), 404)
+        return make_response(jsonify({"Not a JSON"}), 400)
     if 'name' not in json:
-        return make_response(jsonify({"Misssing name"}), 404)
+        return make_response(jsonify({"Misssing name"}), 400)
     new_state = State(**json)
     storage.new(new_state)
     storage.save()
@@ -65,7 +60,7 @@ def update_state(state_id):
     """Return a JSON list of states"""
     json = request.get_json()
     if not json:
-        return make_response(jsonify({"Not a JSON"}), 404)
+        return make_response(jsonify({"Not a JSON"}), 400)
     state = storage.get("State", state_id)
     if state is None:
         abort(404)
