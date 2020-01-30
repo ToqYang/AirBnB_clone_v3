@@ -26,9 +26,9 @@ def list_users_id(user_id):
 
 
 @app_views.route("/users/<user_id>", methods=['DELETE'])
-def delete_users(users_id):
+def delete_users(user_id):
     """ Return a JSON list of users """
-    users = storage.get("User", users_id)
+    users = storage.get("User", user_id)
     if users is None:
         abort(404)
     storage.delete(users)
@@ -45,9 +45,13 @@ def post_users():
         abort(404)
     if not json:
         return "Not a JSON", 404
-    if 'name' not in json:
-        return "Missing name", 404
-    new_users = User(**json)
+    if 'email' not in json:
+        return "Missing email", 404
+    if 'password' not in json:
+        return "Missing password", 404
+    new_users = User(email=json['email'],
+                     password=json['password'],
+                     first_name=json['first_name'])
     storage.new(new_users)
     storage.save()
 
@@ -65,7 +69,7 @@ def update_users(user_id):
         abort(404)
     new_dict = users.to_dict()
     for k, v in json.items():
-        if k == 'id' or k == 'created_at' or k == 'updated_at':
+        if k == 'id' or k == 'email' or k == 'created_at' or k == 'updated_at':
             pass
         else:
             setattr(users, k, v)
