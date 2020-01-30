@@ -45,8 +45,10 @@ def post_users():
         abort(404)
     if not json:
         return "Not a JSON", 404
-    if 'name' not in json:
-        return "Missing name", 404
+    if 'email' not in json:
+        return "Missing email", 404
+    if 'password' not in json:
+        return "Missing password", 404
     new_users = User(**json)
     storage.new(new_users)
     storage.save()
