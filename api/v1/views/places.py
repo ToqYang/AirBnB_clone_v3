@@ -64,7 +64,7 @@ def post_places(city_id):
 
     new_place = Place(name=json['name'],
                       user_id=json['user_id'],
-                      city_id=state_id)
+                      city_id=city_id)
     storage.new(new_place)
     storage.save()
 
