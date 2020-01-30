@@ -7,7 +7,7 @@ from models.state import State
 from models.amenity import Amenity
 
 
-@app_views.route("/amenities", method=['GET'], strict_slashes=False)
+@app_views.route("/amenities", methods=['GET'], strict_slashes=False)
 def amenities_for_id():
     """Return a JSON list of states"""
     amenities = storage.all("Amenity")
