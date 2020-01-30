@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-""" 
-Description of each state and the responses
+"""
+ Description of each state and the responses
 """
 
 from flask import jsonify, abort, request
