@@ -14,8 +14,6 @@ def amenities_for_id():
     list_amenities = []
     for key, val in amenities.items():
         list_amenities.append(val.to_dict())
-    if len(list_amenities) == 0:
-        abort(404)
     return jsonify(list_amenities)
 
 
@@ -62,13 +60,16 @@ def update_amenities(amenity_id):
     """Return a JSON list of states"""
     json = request.get_json()
     if not json:
-        return "Not a JSON", 404
+        abort(400, {'Not a JSON'})
     amenity = storage.get("Amenity", amenity_id)
     if amenity is None:
         abort(404)
     new_dict = amenity.to_dict()
     for k, v in json.items():
-        setattr(amenity, k, v)
+        if k == 'id' or k == 'created_at' or k == 'updated_at':
+            pass
+        else:
+            setattr(amenity, k, v)
     storage.save()
 
     return jsonify(amenity.to_dict()), 200
