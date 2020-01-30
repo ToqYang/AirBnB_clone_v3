@@ -66,7 +66,6 @@ def update_state(state_id):
         abort(404)
     new_dict = state.to_dict()
     for k, v in json.items():
-        print("ESTO ES K ", k)
         if k == 'id' or k == 'created_at' or k == 'updated_at':
             pass
         else:
