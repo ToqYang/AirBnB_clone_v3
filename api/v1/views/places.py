@@ -55,7 +55,7 @@ def post_places(city_id):
         abort(400, 'Missing user_id')
     if 'name' not in json:
         abort(400, 'Missing name')
-    city = storage.get('City', city_id])
+    city = storage.get('City', city_id)
     if city is None:
         abort(404)
     user = storage.get('User', json['user_id'])
@@ -64,7 +64,7 @@ def post_places(city_id):
 
     new_place = Place(name=json['name'],
                       user_id=json['user_id'],
-                      city_id=state_id)
+                      city_id=city_id)
     storage.new(new_place)
     storage.save()
 
