@@ -7,7 +7,7 @@ from models.state import State
 from models.amenity import Amenity
 
 
-@app_views.route("/amenities", strict_slashes=False)
+@app_views.route("/amenities", method=['GET'], strict_slashes=False)
 def amenities_for_id():
     """Return a JSON list of states"""
     amenities = storage.all("Amenity")
@@ -17,7 +17,7 @@ def amenities_for_id():
     return jsonify(list_amenities)
 
 
-@app_views.route("/amenities/<amenity_id>")
+@app_views.route("/amenities/<amenity_id>", methods=['GET'])
 def list_amenities(amenity_id):
     """Return a JSON list of amenities """
     amenities = storage.get("Amenity", amenity_id)
@@ -32,23 +32,21 @@ def delete_amenities(amenity_id):
     amenities = storage.get("Amenity", amenity_id)
     if amenities is None:
         abort(404)
-    storage.delete(amenities)
+    amenities.delete()
     storage.save()
 
     return jsonify({}), 200
 
 
-@app_views.route("/amenities", methods=['POST'])
+@app_views.route("/amenities", methods=['POST'], strict_slashes=False)
 def post_aminities():
     """Return a JSON list of amenities"""
     json = request.get_json()
     if not json:
-        abort(404)
-    if not json:
-        return "Not a JSON", 404
+        abort(400, {'Not a JSON'})
     if 'name' not in json:
-        return "Missing name", 404
-    new_amenity = Amenity(**json)
+        abort(400, {'Missing name'})
+    new_amenity = Amenity(name=json['name'])
     storage.new(new_amenity)
     storage.save()
 
