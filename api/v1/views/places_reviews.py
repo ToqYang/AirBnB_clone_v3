@@ -62,9 +62,7 @@ def post_review(place_id):
     if user is None:
         abort(404)
 
-    new_review = Review(text=json['text'],
-                      user_id=json['user_id'],
-                      place_id=place_id)
+    new_review = Review(**json)
     storage.new(new_review)
     storage.save()
 
