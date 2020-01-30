@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-""" Description of each state and the responses """
+""" 
+Description of each state and the responses
+"""
+
 from flask import jsonify, abort, request
 from api.v1.views import app_views
 from models import storage
