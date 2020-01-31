@@ -116,11 +116,4 @@ class TestDBStorage(unittest.TestCase):
 
     def test_count_method(self):
         """ Test of the count method """
-        one = State(name="Arizona")
-        one.save()
-
-        two = State(name="California")
-        two.save()
-
-        ins = storage.count("State")
-        self.assertIs(ins - 1, 2)
+        self.assertEqual(models.storage.count(), len(models.storage.all()))
