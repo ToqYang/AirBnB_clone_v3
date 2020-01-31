@@ -90,13 +90,7 @@ class TestFileStorage(unittest.TestCase):
 
 
 class TestDBStorage(unittest.TestCase):
-    """Test the DBStorage class"""
-    def setUp(self):
-        """ Setup in the functions """
-
-    def tearDown(self):
-        """ tearDown in the functions """
-
+    """ Test the Data Base Storage class """
     @classmethod
     def setUpClass(cls):
         """ Setup to do previous of the unittest of the class """
@@ -107,7 +101,7 @@ class TestDBStorage(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        """ Teardown to close instance after the unitest of the class """
+        """ Teardown close the enviroment variables """
         os.environ["HBNB_MYSQL_USER"] = "hbnb_dev"
         os.environ["HBNB_MYSQL_PWD"] = "hbnb_dev_pwd"
         os.environ["HBNB_MYSQL_DB"] = "hbnb_dev_db"
@@ -129,5 +123,4 @@ class TestDBStorage(unittest.TestCase):
         two.save()
 
         ins = storage.count("State")
-
-        self.assertIs(ins, 3)
+        self.assertIs(ins - 1, 2)
