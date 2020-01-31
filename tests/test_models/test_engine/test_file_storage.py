@@ -155,4 +155,4 @@ class TestFileStorage(unittest.TestCase):
             two.save()
 
             ins = storage.count("State")
-            self.assertIs(ins, 3)
+            self.assertIs(ins - 1, 2)
