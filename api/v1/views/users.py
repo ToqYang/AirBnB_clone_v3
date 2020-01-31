@@ -1,7 +1,9 @@
 #!/usr/bin/python3
-""" Class User that contain the users """
-from flask import jsonify, abort, request
+"""
+Class User that contain the users
+"""
 from api.v1.views import app_views
+from flask import jsonify, abort, request
 from models import storage
 from models.user import User
 
@@ -31,7 +33,7 @@ def delete_users(user_id):
     users = storage.get("User", user_id)
     if users is None:
         abort(404)
-    storage.delete(users)
+    users.delete()
     storage.save()
 
     return jsonify({}), 200
@@ -42,13 +44,11 @@ def post_users():
     """ Return a JSON list of users """
     json = request.get_json()
     if not json:
-        abort(404)
-    if not json:
-        return "Not a JSON", 404
+        abort(400, 'Not a JSON')
     if 'email' not in json:
-        return "Missing email", 404
+        abort(400, {'Missing name'})
     if 'password' not in json:
-        return "Missing password", 404
+        abort(400, {'Missing password'})
     new_users = User(email=json['email'],
                      password=json['password'],
                      first_name=json['first_name'])
@@ -69,7 +69,7 @@ def update_users(user_id):
         abort(404)
     new_dict = users.to_dict()
     for k, v in json.items():
-        if k == 'id' or k == 'email' or k == 'created_at' or k == 'updated_at':
+        if k in ['id', 'email', 'created_at', 'updated_at']:
             pass
         else:
             setattr(users, k, v)
