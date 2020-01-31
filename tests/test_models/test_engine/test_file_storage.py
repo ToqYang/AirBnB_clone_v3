@@ -138,6 +138,7 @@ class TestFileStorage(unittest.TestCase):
             os.environ["HBNB_MYSQL_PWD"] = "hbnb_dev_pwd"
             os.environ["HBNB_MYSQL_DB"] = "hbnb_dev_db"
 
+        @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
         def test_get_method(self):
             """ Test of the get method """
             one = State(name="Arizona")
@@ -146,13 +147,7 @@ class TestFileStorage(unittest.TestCase):
             my_obj = storage.get("State", one.id)
             self.assertIs(one, my_obj)
 
+        @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
         def test_count_method(self):
             """ Test of the count method """
-            one = State(name="Arizona")
-            one.save()
-
-            two = State(name="California")
-            two.save()
-
-            ins = storage.count("State")
-            self.assertIs(ins - 1, 2)
+            self.assertEqual(models.storage.count(), len(models.storage.all()))
